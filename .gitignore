@@ -1,0 +1,22 @@
+# Compiled object files
+*.o
+*.obj
+
+# Executables
+*.exe
+*.out
+
+# Build directories
+build/
+bin/
+
+# VS Code
+.vscode/
+
+# Visual Studio
+.vs/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
