@@ -1,3 +1,4 @@
+#include "fifo.h"
 #include <stdio.h>
 
 #define MAX_PAGES 100
@@ -63,6 +64,8 @@ int main(void) {
     printf("\nInput accepted successfully.\n");
     printf("Number of frames: %d\n", frames);
     printf("Number of pages: %d\n", pageCount);
+
+    fifo(pages, pageCount, frames);
 
     return 0;
 }
