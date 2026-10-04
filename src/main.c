@@ -1,5 +1,6 @@
-#include "fifo.h"
 #include <stdio.h>
+#include "fifo.h"
+#include "lru.h"
 
 #define MAX_PAGES 100
 #define MAX_FRAMES 20
@@ -66,6 +67,9 @@ int main(void) {
     printf("Number of pages: %d\n", pageCount);
 
     fifo(pages, pageCount, frames);
+
+    printf("\nRunning LRU...\n");
+    lru(pages, pageCount, frames);
 
     return 0;
 }
