@@ -5,18 +5,32 @@ void lru(int pages[], int pageCount, int frameCount) {
     int frames[frameCount];
     int lastUsed[frameCount];
     int time = 0;
+    int pageHits = 0;
+    int pageFaults = 0;
 
     for (int i = 0; i < frameCount; i++) {
         frames[i] = -1;
         lastUsed[i] = -1;
     }
 
+    printf("\n================ LRU PAGE REPLACEMENT ================\n");
+    printf("Page\t");
+
+    for (int i = 0; i < frameCount; i++) {
+        printf("F%d\t", i + 1);
+    }
+
+    printf("Result\n");
+    printf("-------------------------------------------------------\n");
+
     for (int i = 0; i < pageCount; i++) {
         int page = pages[i];
         int pageFound = 0;
+        int replacementIndex = -1;
 
         time++;
 
+        // Check whether the page is already present.
         for (int j = 0; j < frameCount; j++) {
             if (frames[j] == page) {
                 pageFound = 1;
@@ -25,8 +39,11 @@ void lru(int pages[], int pageCount, int frameCount) {
             }
         }
 
+        
+        //  Page fault: find an empty frame first.
+
         if (!pageFound) {
-            int replacementIndex = -1;
+            pageFaults++;
 
             for (int j = 0; j < frameCount; j++) {
                 if (frames[j] == -1) {
@@ -34,6 +51,7 @@ void lru(int pages[], int pageCount, int frameCount) {
                     break;
                 }
             }
+        // If no empty frame exists, find the least recently used page.
 
             if (replacementIndex == -1) {
                 replacementIndex = 0;
@@ -48,5 +66,32 @@ void lru(int pages[], int pageCount, int frameCount) {
             frames[replacementIndex] = page;
             lastUsed[replacementIndex] = time;
         }
+        else {
+            pageHits++;
+        }
+
+        
+        // Display current frame state.
+        printf("%d\t", page);
+
+        for (int j = 0; j < frameCount; j++) {
+            if (frames[j] == -1) {
+                printf("-\t");
+            }
+            else {
+                printf("%d\t", frames[j]);
+            }
+        }
+
+        if (pageFound) {
+            printf("Hit\n");
+        }
+        else {
+            printf("Fault\n");
+        }
     }
+
+    printf("-------------------------------------------------------\n");
+    printf("Page Hits   : %d\n", pageHits);
+    printf("Page Faults : %d\n", pageFaults);
 }
