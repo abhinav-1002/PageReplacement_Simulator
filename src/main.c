@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "fifo.h"
 #include "lru.h"
+#include "optimal.h"
 
 #define MAX_PAGES 100
 #define MAX_FRAMES 20
@@ -66,10 +67,14 @@ int main(void) {
     printf("Number of frames: %d\n", frames);
     printf("Number of pages: %d\n", pageCount);
 
+    printf("\nRunning FIFO...\n");
     fifo(pages, pageCount, frames);
 
     printf("\nRunning LRU...\n");
     lru(pages, pageCount, frames);
+
+    printf("\nRunning Optimal...\n");
+    optimal(pages, pageCount, frames);
 
     return 0;
 }
