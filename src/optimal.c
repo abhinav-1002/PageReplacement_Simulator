@@ -3,14 +3,29 @@
 
 void optimal(int pages[], int pageCount, int frameCount) {
     int frames[frameCount];
+    int pageHits = 0;
+    int pageFaults = 0;
 
     for (int i = 0; i < frameCount; i++) {
         frames[i] = -1;
     }
 
+    printf("\n=============== OPTIMAL PAGE REPLACEMENT ===============\n");
+    printf("Page\t");
+
+    for (int i = 0; i < frameCount; i++) {
+        printf("F%d\t", i + 1);
+    }
+
+    printf("Result\n");
+    printf("---------------------------------------------------------\n");
+
     for (int i = 0; i < pageCount; i++) {
         int page = pages[i];
         int pageFound = 0;
+        int replacementIndex = -1;
+
+        // Check whether the page is already present.
 
         for (int j = 0; j < frameCount; j++) {
             if (frames[j] == page) {
@@ -19,11 +34,15 @@ void optimal(int pages[], int pageCount, int frameCount) {
             }
         }
 
-        if (!pageFound) {
-            int replacementIndex = -1;
+        if (pageFound) {
+            pageHits++;
+        }
+        else {
+            pageFaults++;
 
-            // First look for an empty frame.
-            
+
+            // First use an empty frame if available.
+
             for (int j = 0; j < frameCount; j++) {
                 if (frames[j] == -1) {
                     replacementIndex = j;
@@ -31,7 +50,7 @@ void optimal(int pages[], int pageCount, int frameCount) {
                 }
             }
 
-            // If all frames are occupied find the page whose next use is farthest
+            // If all frames are full find the page that will be used farthest
 
             if (replacementIndex == -1) {
                 int farthestUse = -1;
@@ -52,7 +71,33 @@ void optimal(int pages[], int pageCount, int frameCount) {
                     }
                 }
             }
+
             frames[replacementIndex] = page;
         }
+
+        
+        // Display current frame state.
+        
+        printf("%d\t", page);
+
+        for (int j = 0; j < frameCount; j++) {
+            if (frames[j] == -1) {
+                printf("-\t");
+            }
+            else {
+                printf("%d\t", frames[j]);
+            }
+        }
+
+        if (pageFound) {
+            printf("Hit\n");
+        }
+        else {
+            printf("Fault\n");
+        }
     }
+
+    printf("---------------------------------------------------------\n");
+    printf("Page Hits   : %d\n", pageHits);
+    printf("Page Faults : %d\n", pageFaults);
 }
