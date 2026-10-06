@@ -1,12 +1,14 @@
 #include <stdio.h>
 #include "lru.h"
 
-void lru(int pages[], int pageCount, int frameCount) {
+Statistics lru(int pages[], int pageCount, int frameCount) {
+    Statistics stats;
+    stats.hits = 0;
+    stats.faults = 0;
+
     int frames[frameCount];
     int lastUsed[frameCount];
     int time = 0;
-    int pageHits = 0;
-    int pageFaults = 0;
 
     for (int i = 0; i < frameCount; i++) {
         frames[i] = -1;
@@ -43,7 +45,7 @@ void lru(int pages[], int pageCount, int frameCount) {
         //  Page fault: find an empty frame first.
 
         if (!pageFound) {
-            pageFaults++;
+            stats.faults++;
 
             for (int j = 0; j < frameCount; j++) {
                 if (frames[j] == -1) {
@@ -67,7 +69,7 @@ void lru(int pages[], int pageCount, int frameCount) {
             lastUsed[replacementIndex] = time;
         }
         else {
-            pageHits++;
+            stats.hits++;
         }
 
         
@@ -92,6 +94,8 @@ void lru(int pages[], int pageCount, int frameCount) {
     }
 
     printf("-------------------------------------------------------\n");
-    printf("Page Hits   : %d\n", pageHits);
-    printf("Page Faults : %d\n", pageFaults);
+    printf("Page Hits   : %d\n", stats.hits);
+    printf("Page Faults : %d\n", stats.faults);
+
+    return stats;
 }

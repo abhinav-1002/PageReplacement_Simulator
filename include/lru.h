@@ -1,6 +1,8 @@
 #ifndef LRU_H
 #define LRU_H
 
-void lru(int pages[], int pageCount, int frameCount);
+#include "simulator.h"
+
+Statistics lru(int pages[], int pageCount, int frameCount);
 
 #endif

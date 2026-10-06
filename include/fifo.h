@@ -1,6 +1,8 @@
 #ifndef FIFO_H
 #define FIFO_H
 
-void fifo(int pages[], int pageCount, int frameCount);
+#include "simulator.h"
+
+Statistics fifo(int pages[], int pageCount, int frameCount);
 
 #endif

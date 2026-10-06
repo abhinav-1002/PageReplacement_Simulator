@@ -1,11 +1,13 @@
 #include <stdio.h>
 #include "fifo.h"
 
-void fifo(int pages[], int pageCount, int frameCount) {
+Statistics fifo(int pages[], int pageCount, int frameCount) {
+    Statistics stats;
+    stats.hits = 0;
+    stats.faults = 0;
+
     int frames[frameCount];
     int nextReplacement = 0;
-    int pageHits = 0;
-    int pageFaults = 0;
 
     for (int i = 0; i < frameCount; i++) {
         frames[i] = -1;
@@ -33,10 +35,10 @@ void fifo(int pages[], int pageCount, int frameCount) {
         }
 
         if (pageFound) {
-            pageHits++;
+            stats.hits++;
         }
         else {
-            pageFaults++;
+            stats.faults++;
             frames[nextReplacement] = page;
             nextReplacement = (nextReplacement + 1) % frameCount;
         }
@@ -61,6 +63,8 @@ void fifo(int pages[], int pageCount, int frameCount) {
     }
 
     printf("--------------------------------------------------------\n");
-    printf("Page Hits   : %d\n", pageHits);
-    printf("Page Faults : %d\n", pageFaults);
+    printf("Page Hits   : %d\n", stats.hits);
+    printf("Page Faults : %d\n", stats.faults);
+
+    return stats;
 }

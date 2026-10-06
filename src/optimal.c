@@ -1,10 +1,12 @@
 #include <stdio.h>
 #include "optimal.h"
 
-void optimal(int pages[], int pageCount, int frameCount) {
+Statistics optimal(int pages[], int pageCount, int frameCount) {
+    Statistics stats;
+    stats.hits = 0;
+    stats.faults = 0;
+
     int frames[frameCount];
-    int pageHits = 0;
-    int pageFaults = 0;
 
     for (int i = 0; i < frameCount; i++) {
         frames[i] = -1;
@@ -35,10 +37,10 @@ void optimal(int pages[], int pageCount, int frameCount) {
         }
 
         if (pageFound) {
-            pageHits++;
+            stats.hits++;
         }
         else {
-            pageFaults++;
+            stats.faults++;
 
 
             // First use an empty frame if available.
@@ -98,6 +100,8 @@ void optimal(int pages[], int pageCount, int frameCount) {
     }
 
     printf("---------------------------------------------------------\n");
-    printf("Page Hits   : %d\n", pageHits);
-    printf("Page Faults : %d\n", pageFaults);
+    printf("Page Hits   : %d\n", stats.hits);
+    printf("Page Faults : %d\n", stats.faults);
+
+    return stats;
 }
